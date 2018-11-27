@@ -2,7 +2,7 @@ clear
 
 unbc_loc = 'D:/Datasets/UNBC/Images/';
 
-out_loc = './out_unbc/';
+out_loc = './AU_predictions/out_unbc/';
 
 if(~exist(out_loc, 'dir'))
     mkdir(out_loc);
@@ -98,10 +98,11 @@ end
 
 %%
 f = fopen('results/UNBC_valid_res_int.txt', 'w');
+ints_cccs = zeros(1, numel(aus_UNBC));
 for au = 1:numel(aus_UNBC)
     
     [ accuracies, F1s, corrs, ccc, rms, classes ] = evaluate_au_prediction_results( preds_all_int(:, inds_au_int(au)), labels_gt(:,au));
     fprintf(f, 'AU%d results - rms %.3f, corr %.3f, ccc - %.3f\n', aus_UNBC(au), rms, corrs, ccc);  
-    
+    ints_cccs(au) = ccc;
 end
 fclose(f);
